@@ -3,10 +3,18 @@ import prisma from "@/lib/prisma";
 import { getPostDataInclude, PostsPage } from "@/lib/types";
 import { NextRequest } from "next/server";
 
+interface RouteContext {
+  params: Promise<{
+    userId: string;
+  }>;
+}
+
 export async function GET(
   req: NextRequest,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: RouteContext,
 ) {
+  const { userId } = await params;
+
   try {
     const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 
@@ -26,7 +34,8 @@ export async function GET(
       cursor: cursor ? { id: cursor } : undefined,
     });
 
-    const nextCursor = posts.length > pageSize ? posts[pageSize].id : null;
+    const nextCursor =
+      posts.length > pageSize ? posts[pageSize].id : null;
 
     const data: PostsPage = {
       posts: posts.slice(0, pageSize),

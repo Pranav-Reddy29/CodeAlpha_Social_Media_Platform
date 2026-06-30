@@ -2,10 +2,18 @@ import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { FollowerInfo } from "@/lib/types";
 
+interface RouteContext {
+  params: Promise<{
+    userId: string;
+  }>;
+}
+
 export async function GET(
   req: Request,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: RouteContext,
 ) {
+  const { userId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -50,8 +58,10 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: RouteContext,
 ) {
+  const { userId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -91,8 +101,10 @@ export async function POST(
 
 export async function DELETE(
   req: Request,
-  { params: { userId } }: { params: { userId: string } },
+  { params }: RouteContext,
 ) {
+  const { userId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 

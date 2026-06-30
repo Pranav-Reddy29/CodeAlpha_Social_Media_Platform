@@ -2,10 +2,18 @@ import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";
 
+interface RouteContext {
+  params: Promise<{
+    username: string;
+  }>;
+}
+
 export async function GET(
   req: Request,
-  { params: { username } }: { params: { username: string } },
+  { params }: RouteContext,
 ) {
+  const { username } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -30,6 +38,9 @@ export async function GET(
     return Response.json(user);
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
