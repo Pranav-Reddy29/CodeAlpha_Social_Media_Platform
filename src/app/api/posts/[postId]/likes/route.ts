@@ -2,10 +2,18 @@ import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { LikeInfo } from "@/lib/types";
 
+interface RouteContext {
+  params: Promise<{
+    postId: string;
+  }>;
+}
+
 export async function GET(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params }: RouteContext,
 ) {
+  const { postId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -44,14 +52,19 @@ export async function GET(
     return Response.json(data);
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
 export async function POST(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params }: RouteContext,
 ) {
+  const { postId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -101,14 +114,19 @@ export async function POST(
     return new Response();
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params: { postId } }: { params: { postId: string } },
+  { params }: RouteContext,
 ) {
+  const { postId } = await params;
+
   try {
     const { user: loggedInUser } = await validateRequest();
 
@@ -147,6 +165,9 @@ export async function DELETE(
     return new Response();
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
