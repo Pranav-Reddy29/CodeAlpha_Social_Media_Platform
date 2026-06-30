@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
+
   experimental: {
     staleTimes: {
       dynamic: 30,
@@ -13,7 +15,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "utfs.io",
-        pathname: `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/*`,
+        pathname: `/a/${process.env.UPLOADTHING_APP_ID}/*`,
       },
     ],
   },

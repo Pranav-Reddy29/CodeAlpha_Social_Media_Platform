@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { google, lucia } from "@/auth";
 import kyInstance from "@/lib/ky";
 import prisma from "@/lib/prisma";

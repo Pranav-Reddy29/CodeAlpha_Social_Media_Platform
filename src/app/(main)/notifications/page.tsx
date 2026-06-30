@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import TrendsSidebar from "@/components/TrendsSidebar";
 import { Metadata } from "next";
 import Notifications from "./Notifications";
